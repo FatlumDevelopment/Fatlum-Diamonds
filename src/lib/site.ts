@@ -12,8 +12,8 @@ export const ADDRESS = {
 
 export const FAMILY = {
   gold: "https://honeydew-seahorse-267054.hostingersite.com",
-  jewelry: "https://devoted-mintcream-goshawk-42.hostingersite.com",
-  diamonds: "https://quantum-darkseagreen-salamander-62.hostingersite.com",
+  jewelry: "https://top-orangered-kudu-52.hostingersite.com",
+  diamonds: "https://little-mistyrose-starling-03.hostingersite.com",
 } as const;
 
 export function siteUrl() {

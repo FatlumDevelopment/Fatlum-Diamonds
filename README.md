@@ -2,9 +2,9 @@
 
 Loose-diamond site for Fatlum (Munich). Next.js App Router, TypeScript, Tailwind CSS v4. German (`/de`, default) and English (`/en`). No prices and no checkout: visitors build a request list and send an inquiry.
 
-Temporary host: `https://quantum-darkseagreen-salamander-62.hostingersite.com`
+Temporary host: `https://little-mistyrose-starling-03.hostingersite.com`
 
-Sister sites: [Fatlum Gold](https://honeydew-seahorse-267054.hostingersite.com) and [Fatlum Jewelry](https://devoted-mintcream-goshawk-42.hostingersite.com).
+Sister sites: [Fatlum Gold](https://honeydew-seahorse-267054.hostingersite.com) and [Fatlum Jewelry](https://top-orangered-kudu-52.hostingersite.com).
 
 ## Pages
 
