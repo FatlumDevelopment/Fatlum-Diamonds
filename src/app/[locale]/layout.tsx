@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { SiteShell } from "@/components/chrome";
 import { isLocale, locales } from "@/lib/i18n";
 
 export function generateStaticParams() {
@@ -8,5 +9,5 @@ export function generateStaticParams() {
 export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return children;
+  return <SiteShell l={locale}>{children}</SiteShell>;
 }

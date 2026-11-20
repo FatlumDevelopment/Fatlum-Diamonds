@@ -3,7 +3,7 @@ export const COLORS = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M"] as cons
 export const CLARITIES = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"] as const;
 export const GRADES = ["Excellent", "Very Good", "Good", "Fair"] as const;
 export const FLUORESCENCE = ["None", "Faint", "Medium", "Strong", "Very Strong"] as const;
-export const LABS = ["GIA", "IGI", "HRD"] as const;
+export const LABS = ["GIA", "IGI", "HRD", "AGS", "GCAL", "GSI", "Other"] as const;
 export const ORIGINS = ["natural", "lab"] as const;
 
 export type Shape = (typeof SHAPES)[number];

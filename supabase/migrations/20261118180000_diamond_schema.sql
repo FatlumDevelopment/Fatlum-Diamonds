@@ -15,7 +15,7 @@ create table if not exists public.diamond_stones (
   polish text not null check (polish in ('Excellent', 'Very Good', 'Good', 'Fair')),
   symmetry text not null check (symmetry in ('Excellent', 'Very Good', 'Good', 'Fair')),
   fluorescence text not null check (fluorescence in ('None', 'Faint', 'Medium', 'Strong', 'Very Strong')),
-  cert_lab text not null check (cert_lab in ('GIA', 'IGI', 'HRD')),
+  cert_lab text not null check (cert_lab in ('GIA', 'IGI', 'HRD', 'AGS', 'GCAL', 'GSI', 'Other')),
   cert_number text not null,
   origin text not null check (origin in ('natural', 'lab')),
   length_mm numeric not null check (length_mm > 0),
