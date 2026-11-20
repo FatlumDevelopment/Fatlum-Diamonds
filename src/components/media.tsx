@@ -16,6 +16,7 @@ export function DiamondMedia({
   alt,
   className = "",
   priority = false,
+  eager = false,
   decorative = false,
   sizes = SIZES.card,
 }: {
@@ -24,6 +25,8 @@ export function DiamondMedia({
   alt: string;
   className?: string;
   priority?: boolean;
+  /** Paint immediately. Related and editorial frames must not wait for lazy loading. */
+  eager?: boolean;
   decorative?: boolean;
   sizes?: string;
 }) {
@@ -36,8 +39,8 @@ export function DiamondMedia({
           alt={decorative ? "" : alt}
           fill
           sizes={sizes}
-          priority={priority}
-          className="object-contain"
+          className="stone-photo"
+          {...(priority ? { priority: true } : { loading: eager ? "eager" as const : "lazy" as const })}
         />
       ) : (
         <DiamondShape shape={shape} title={alt} decorative={decorative || !alt} className="h-[72%] w-[72%]" />
@@ -52,6 +55,7 @@ export function StudioPhoto({
   width,
   height,
   priority = false,
+  eager = false,
   sizes,
   className = "",
 }: {
@@ -60,6 +64,7 @@ export function StudioPhoto({
   width: number;
   height: number;
   priority?: boolean;
+  eager?: boolean;
   sizes: string;
   className?: string;
 }) {
@@ -69,8 +74,8 @@ export function StudioPhoto({
       alt={alt}
       width={width}
       height={height}
-      priority={priority}
       sizes={sizes}
+      {...(priority ? { priority: true } : { loading: eager ? "eager" as const : "lazy" as const })}
       className={className}
     />
   );

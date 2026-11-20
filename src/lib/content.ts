@@ -172,14 +172,14 @@ export function aboutParagraphs(l: Locale): string[] {
     return [
       "Fatlum works from Maximilianstraße 2, 80539 Munich. The house is known for precious metals. Fatlum Diamonds is the loose-diamond desk of the same house, with its own address for mail: info@fatlum.diamonds, phone +49 89 20 500 85858.",
       "The legal entity, the managing directors, the commercial register and the VAT identification number are not published here yet. Those lines are marked as placeholders on the imprint.",
-      "Fatlum’s gold business may describe recycled and secondary precious metals. That sentence does not travel onto a diamond. On this site we state laboratory, measurements and whether a stone is natural or lab-grown, and we stop there.",
+      "Laboratory, measurements and origin sit with the stone. We claim nothing beyond that.",
       "The stones you can search today are examples, drawn so that every shape, both origins and the laboratories we work with appear. They are labelled EXAMPLE in the data and on the screen. They are not an offer.",
     ];
   }
   return [
     "Fatlum arbeitet in der Maximilianstraße 2, 80539 München. Das Haus ist für Edelmetalle bekannt. Fatlum Diamonds ist der Schreibtisch für lose Diamanten desselben Hauses, mit eigener Postadresse info@fatlum.diamonds und Telefon +49 89 20 500 85858.",
     "Rechtsform, Geschäftsführung, Handelsregister und Umsatzsteuer-Identifikationsnummer stehen hier noch nicht. Diese Zeilen sind im Impressum als Platzhalter markiert.",
-    "Das Goldgeschäft von Fatlum darf recycelte und sekundäre Edelmetalle benennen. Dieser Satz wandert nicht auf einen Diamanten. Auf dieser Seite nennen wir Labor, Maße und ob ein Stein natürlich oder laborgezüchtet ist, und dabei bleibt es.",
+    "Labor, Maße und Herkunft stehen am Stein. Mehr behaupten wir nicht.",
     "Die Steine, die Sie heute suchen können, sind Beispiele. Sie sind so gesetzt, dass jede Form, beide Herkünfte und die Labore, mit denen wir arbeiten, vorkommen. Sie tragen EXAMPLE in den Daten und auf dem Bildschirm. Sie sind kein Angebot.",
   ];
 }

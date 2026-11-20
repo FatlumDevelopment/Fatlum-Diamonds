@@ -47,6 +47,7 @@ export default async function TopicPage({ params }: { params: Promise<{ locale: 
               src={studio.certificate.src}
               width={studio.certificate.width}
               height={studio.certificate.height}
+              eager
               sizes="(min-width: 768px) 560px, 92vw"
               alt={locale === "de" ? "Diamant auf einem Zertifikat" : "Diamond on a certificate"}
               className="h-auto w-full"
@@ -54,11 +55,11 @@ export default async function TopicPage({ params }: { params: Promise<{ locale: 
           </div>
         ) : null}
         {topic === "4c" ? (
-          <ol className="mt-12 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {page.sections.map((section, i) => (
-              <li key={section.heading} className="bg-paper p-6">
-                <p className="text-[11px] tracking-[0.18em] text-muted">0{i + 1}</p>
-                <p className="mt-3 font-serif text-4xl font-normal">{section.heading}</p>
+              <li key={section.heading} className="border border-line bg-white p-6">
+                <p className="font-serif text-5xl font-normal leading-none">0{i + 1}</p>
+                <p className="mt-6 font-serif text-3xl font-normal">{section.heading}</p>
               </li>
             ))}
           </ol>

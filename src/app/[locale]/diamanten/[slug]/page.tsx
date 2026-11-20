@@ -79,7 +79,6 @@ export default async function DetailPage({ params }: { params: Promise<{ locale:
             </div>
             <p className="mt-4 text-muted">{stone.color} · {stone.clarity} · {originLabel(locale, stone.origin)} · {labLabel(locale, stone.cert_lab)}</p>
             <p className="mt-6 font-serif text-4xl font-normal">{t.priceOnRequest}</p>
-            <p className="mt-2 text-sm text-muted">{t.noPrices}</p>
             {stone.is_example ? <div className="mt-4"><SpecimenNote l={locale} show /></div> : null}
             <div className="mt-8 max-w-md">
               <StoneActions stone={stone} l={locale} />
@@ -126,8 +125,8 @@ export default async function DetailPage({ params }: { params: Promise<{ locale:
               {related.map((other) => (
                 <li key={other.slug}>
                   <Link href={`/${locale}/diamanten/${other.slug}`} className="group block">
-                    <span className="block border border-line">
-                      <DiamondMedia shape={other.shape} slug={other.slug} alt="" decorative sizes="(min-width: 640px) 30vw, 92vw" />
+                    <span className="block border border-line bg-white transition-colors group-hover:border-ink">
+                      <DiamondMedia shape={other.shape} slug={other.slug} alt={shapeLabel(locale, other.shape)} eager sizes="(min-width: 640px) 30vw, 92vw" />
                     </span>
                     <span className="mt-3 block font-serif text-2xl group-hover:underline">{formatCarat(other.carat, locale)} ct · {other.color} {other.clarity}</span>
                     <span className="mt-1 block text-sm text-muted">{labLabel(locale, other.cert_lab)} · {t.priceOnRequest}</span>

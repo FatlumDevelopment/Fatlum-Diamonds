@@ -147,7 +147,7 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
           ) : filters.view === "list" ? (
             <ResultsList stones={shown} l={l} />
           ) : (
-            <ul className="mt-6 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="mt-8 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 xl:grid-cols-3">
               {shown.map((stone) => <StoneCard key={stone.slug} stone={stone} l={l} />)}
             </ul>
           )}
@@ -190,8 +190,8 @@ function StoneCard({ stone, l }: { stone: Stone; l: Locale }) {
   const name = `${shapeLabel(l, stone.shape)} ${formatCarat(stone.carat, l)} ct`;
   return (
     <li data-testid="stone-card" className="flex flex-col">
-      <Link href={`/${l}/diamanten/${stone.slug}`} className="block">
-        <span className="block border border-line">
+      <Link href={`/${l}/diamanten/${stone.slug}`} className="group block">
+        <span className="block border border-line bg-white transition-colors group-hover:border-ink">
           <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="(min-width: 1280px) 300px, (min-width: 640px) 46vw, 92vw" />
         </span>
         <span className="mt-4 flex items-baseline justify-between gap-3">
