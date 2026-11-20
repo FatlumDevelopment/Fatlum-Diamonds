@@ -77,10 +77,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn-line:hover { background: #1c1b19; color: #f6f4f0; }
 .stone-photo {
   object-fit: contain;
-  transform: scale(1.42);
+  transform: scale(1.55);
   transition: transform 500ms ease;
 }
-.group:hover .stone-photo { transform: scale(1.5); }
+.group:hover .stone-photo { transform: scale(1.62); }
 .btn:disabled { opacity: 0.55; }
 
 .field, .select {

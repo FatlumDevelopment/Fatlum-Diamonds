@@ -60,14 +60,14 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         }}
       />
       <section className="bg-white">
-        <div className="relative min-h-[58vh] overflow-hidden md:min-h-[78vh]">
+        <div className="relative aspect-[4/3] overflow-hidden md:aspect-auto md:min-h-[76vh]">
           <Image
             src={studio.heroBrilliant.src}
             alt={l === "de" ? "Runder Brillant" : "Round brilliant"}
             fill
             priority
             sizes="100vw"
-            className="object-contain object-center scale-110 md:scale-125"
+            className="object-cover object-center scale-125 md:scale-110"
           />
         </div>
       </section>
@@ -106,7 +106,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             {SHAPES.map((shape) => (
               <li key={shape}>
                 <Link href={`/${l}/diamanten?shape=${shape}`} className="group block border border-line bg-white text-center text-ink transition-colors hover:border-ink">
-                  <DiamondMedia shape={shape} alt="" decorative sizes="(min-width: 1024px) 18vw, 46vw" />
+                  <DiamondMedia shape={shape} alt="" decorative eager sizes="(min-width: 1024px) 18vw, 46vw" />
                   <span className="flex min-h-11 items-center justify-center px-2 text-sm">{shapeLabel(l, shape)}</span>
                 </Link>
               </li>
@@ -124,7 +124,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <li key={stone.slug}>
                 <Link href={`/${l}/diamanten/${stone.slug}`} className="group block">
                   <span className="block border border-line transition-colors group-hover:border-ink">
-                    <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="(min-width: 1024px) 24vw, (min-width: 640px) 46vw, 92vw" />
+                    <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative eager sizes="(min-width: 1024px) 24vw, (min-width: 640px) 46vw, 92vw" />
                   </span>
                   <span className="mt-4 block font-serif text-2xl font-normal group-hover:underline">{shapeLabel(l, stone.shape)} {formatCarat(stone.carat, l)} ct</span>
                   <span className="mt-1 block text-sm text-muted">{stone.color} · {stone.clarity} · {labLabel(l, stone.cert_lab)}</span>
