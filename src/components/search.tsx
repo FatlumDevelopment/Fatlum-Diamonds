@@ -35,6 +35,7 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
   const filters = filtersFromParams(new URLSearchParams(sp.toString()));
   const shown = applyFilters(stones, filters);
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(12);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const count = activeFilterCount(filters);
   const examples = stones.some((stone) => stone.is_example);
@@ -58,6 +59,9 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
     if (!open && el.open) el.close();
   }, [open]);
 
+  const filterKey = sp.toString();
+  useEffect(() => { setVisible(12); }, [filterKey]);
+
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
     const close = () => { if (mq.matches) setOpen(false); };
@@ -76,9 +80,10 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
 
   const chips = activeChips(filters, l);
   const emptyCopy = filters.priceOnRequest ? t.search.empty : t.search.priceOffEmpty;
+  const page = shown.slice(0, visible);
 
   return (
-    <div>
+    <div className="pb-20 lg:pb-0">
       <div className="max-w-3xl">
         <p className="text-[11px] uppercase tracking-[0.22em] text-muted">{t.hero.eyebrow}</p>
         <h1 className="mt-3 font-serif text-[2.65rem] font-normal leading-[1.02] md:text-6xl">{t.search.title}</h1>
@@ -99,11 +104,6 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm" aria-live="polite" data-testid="count">{t.search.results(shown.length)}</p>
               <div className="flex flex-wrap items-center gap-2">
-                <div className="lg:hidden">
-                  <button type="button" className="btn btn-line h-11 min-h-11 px-4" aria-expanded={open} aria-controls="filter-sheet" onClick={() => setOpen(true)}>
-                    {t.search.openFilters}{count ? ` · ${count}` : ""}
-                  </button>
-                </div>
                 <label className="sr-only" htmlFor="sort">{t.search.sort}</label>
                 <select id="sort" className="select h-11 min-h-11 w-auto" value={filters.sort} onChange={(e) => update({ sort: e.target.value as FilterState["sort"] })}>
                   {(Object.keys(t.sort) as (keyof typeof t.sort)[]).map((key) => <option key={key} value={key}>{t.sort[key]}</option>)}
@@ -145,13 +145,24 @@ export function Search({ stones, l }: { stones: Stone[]; l: Locale }) {
               <button type="button" className="btn btn-line mt-8" onClick={reset}>{t.search.reset}</button>
             </div>
           ) : filters.view === "list" ? (
-            <ResultsList stones={shown} l={l} />
+            <ResultsList stones={page} l={l} />
           ) : (
-            <ul className="mt-8 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 xl:grid-cols-3">
-              {shown.map((stone) => <StoneCard key={stone.slug} stone={stone} l={l} />)}
+            <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-8 xl:grid-cols-3 xl:gap-x-8 xl:gap-y-16">
+              {page.map((stone) => <StoneCard key={stone.slug} stone={stone} l={l} />)}
             </ul>
           )}
+          {shown.length > page.length ? (
+            <div className="mt-8 flex flex-col items-center gap-3">
+              <p className="text-sm text-muted">{t.search.of(page.length, shown.length)}</p>
+              <button type="button" className="btn btn-line" onClick={() => setVisible((n) => n + 12)}>{t.search.more}</button>
+            </div>
+          ) : null}
         </div>
+      </div>
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden">
+        <button type="button" className="btn btn-solid w-full" aria-expanded={open} aria-controls="filter-sheet" onClick={() => setOpen(true)}>
+          {t.search.openFilters}{count ? ` · ${count}` : ""}
+        </button>
       </div>
 
       <dialog
@@ -194,15 +205,14 @@ function StoneCard({ stone, l }: { stone: Stone; l: Locale }) {
         <span className="block border border-line bg-white transition-colors group-hover:border-ink">
           <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="(min-width: 1280px) 300px, (min-width: 640px) 46vw, 92vw" />
         </span>
-        <span className="mt-4 flex items-baseline justify-between gap-3">
-          <h2 className="font-serif text-[1.65rem] font-normal leading-none">{name}</h2>
+        <span className="mt-3 flex items-baseline justify-between gap-2 sm:mt-4">
+          <h2 className="font-serif text-lg font-normal leading-tight sm:text-[1.65rem] sm:leading-none">{name}</h2>
           {stone.is_example ? <span className="text-[10px] tracking-[0.16em] text-muted">{t.exampleBadge}</span> : null}
         </span>
-        <p className="mt-2 text-sm text-muted">{stone.color} · {stone.clarity} · {gradeLabel(l, stone.cut)} · {labLabel(l, stone.cert_lab)}</p>
-        <p className="mt-1 text-sm text-muted">{originLabel(l, stone.origin)}</p>
-        <p className="mt-3 font-serif text-2xl font-normal">{t.priceOnRequest}</p>
+        <p className="mt-1 text-xs text-muted sm:mt-2 sm:text-sm">{stone.color} · {stone.clarity} · {labLabel(l, stone.cert_lab)}</p>
+        <p className="mt-2 font-serif text-lg font-normal sm:mt-3 sm:text-2xl">{t.priceOnRequest}</p>
       </Link>
-      <div className="mt-1"><StoneActions stone={stone} l={l} layout="card" /></div>
+      <div className="mt-1 hidden sm:block"><StoneActions stone={stone} l={l} layout="card" /></div>
     </li>
   );
 }

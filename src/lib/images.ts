@@ -30,6 +30,8 @@ export const studio = {
   heroLoose: { src: "/images/heroes/loose-diamonds.webp", width: 1280, height: 720 },
   certificate: { src: "/images/studio/certificate.webp", width: 1024, height: 1024 },
   tweezers: { src: "/images/studio/tweezers.webp", width: 1024, height: 1024 },
+  gold: { src: "/images/houses/gold.webp", width: 1280, height: 720 },
+  jewelry: { src: "/images/houses/jewelry.webp", width: 1280, height: 720 },
 } as const;
 
 export function mediaFor(stone: { slug: string; shape: Shape }): string {

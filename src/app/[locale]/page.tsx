@@ -3,12 +3,12 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DiamondMedia } from "@/components/media";
+import { studio } from "@/lib/images";
 import { Container, JsonLd, Main } from "@/components/frame";
 import { topicCards } from "@/lib/content";
 import { formatCarat } from "@/lib/format";
 import { dict, isLocale, labLabel, shapeLabel, type Locale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/meta";
-import { studio } from "@/lib/images";
 import { ADDRESS, FAMILY, siteUrl } from "@/lib/site";
 import { getCatalog } from "@/lib/stones";
 import { SHAPES, type Shape, type Stone } from "@/lib/types";
@@ -97,16 +97,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       <Container>
-        <section className="py-16 md:py-24">
+        <section className="py-10 md:py-24">
           <div className="max-w-2xl">
-            <h2 className="font-serif text-4xl font-normal md:text-5xl">{t.shapesTitle}</h2>
-            <p className="mt-3 text-muted">{t.shapesIntro}</p>
+            <h2 className="font-serif text-3xl font-normal md:text-5xl">{t.shapesTitle}</h2>
+            <p className="mt-2 text-sm text-muted md:mt-3 md:text-base">{t.shapesIntro}</p>
           </div>
-          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-5">
+          <ul className="-mx-5 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 md:mx-0 md:mt-8 md:grid md:grid-cols-5 md:gap-3 md:overflow-visible md:px-0 md:pb-0">
             {SHAPES.map((shape) => (
-              <li key={shape}>
+              <li key={shape} className="w-[42vw] max-w-52 shrink-0 snap-start md:w-auto md:max-w-none">
                 <Link href={`/${l}/diamanten?shape=${shape}`} className="group block border border-line bg-white text-center text-ink transition-colors hover:border-ink">
-                  <DiamondMedia shape={shape} alt="" decorative eager sizes="(min-width: 1024px) 18vw, 46vw" />
+                  <DiamondMedia shape={shape} alt="" decorative eager sizes="(min-width: 768px) 18vw, 42vw" />
                   <span className="flex min-h-11 items-center justify-center px-2 text-sm">{shapeLabel(l, shape)}</span>
                 </Link>
               </li>
@@ -114,19 +114,19 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </ul>
         </section>
 
-        <section className="border-t border-line py-16 md:py-24">
+        <section className="border-t border-line py-10 md:py-24">
           <div className="flex items-end justify-between gap-4">
-            <h2 className="font-serif text-4xl font-normal md:text-5xl">{t.featuredTitle}</h2>
+            <h2 className="font-serif text-3xl font-normal md:text-5xl">{t.featuredTitle}</h2>
             <Link href={`/${l}/diamanten`} className="inline-flex min-h-11 items-center text-sm underline underline-offset-4">{t.featuredLink}</Link>
           </div>
-          <ul className="mt-10 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-6 grid grid-cols-2 gap-x-3 gap-y-8 md:mt-10 md:gap-x-8 md:gap-y-14 lg:grid-cols-4">
             {featured.map((stone) => (
               <li key={stone.slug}>
                 <Link href={`/${l}/diamanten/${stone.slug}`} className="group block">
                   <span className="block border border-line transition-colors group-hover:border-ink">
                     <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative eager sizes="(min-width: 1024px) 24vw, (min-width: 640px) 46vw, 92vw" />
                   </span>
-                  <span className="mt-4 block font-serif text-2xl font-normal group-hover:underline">{shapeLabel(l, stone.shape)} {formatCarat(stone.carat, l)} ct</span>
+                  <span className="mt-3 block font-serif text-xl font-normal group-hover:underline md:mt-4 md:text-2xl">{shapeLabel(l, stone.shape)} {formatCarat(stone.carat, l)} ct</span>
                   <span className="mt-1 block text-sm text-muted">{stone.color} · {stone.clarity} · {labLabel(l, stone.cert_lab)}</span>
                   <span className="mt-2 block font-serif text-xl">{t.priceOnRequest}</span>
                 </Link>
@@ -148,8 +148,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           />
         </section>
         <Container>
-        <section className="py-16 md:py-24">
-          <h2 className="font-serif text-4xl font-normal md:text-5xl">{t.stepsTitle}</h2>
+        <section className="py-10 md:py-24">
+          <h2 className="font-serif text-3xl font-normal md:text-5xl">{t.stepsTitle}</h2>
           <ol className="mt-8 grid gap-4 md:grid-cols-3">
             {t.steps.map(([title, body], index) => (
               <li key={title} className="border border-line bg-white p-6 md:min-h-64 md:p-8">
@@ -161,9 +161,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </ol>
         </section>
 
-        <section className="border-t border-line py-16 md:py-24">
+        <section className="border-t border-line py-10 md:py-24">
           <div className="max-w-2xl">
-            <h2 className="font-serif text-4xl font-normal md:text-5xl">{t.learnTitle}</h2>
+            <h2 className="font-serif text-3xl font-normal md:text-5xl">{t.learnTitle}</h2>
             <p className="mt-3 text-muted">{t.learnIntro}</p>
           </div>
           <ul className="mt-8 grid gap-4 md:grid-cols-3">
@@ -179,37 +179,38 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </ul>
         </section>
 
-        <section className="border-t border-line py-16 md:py-24">
+        <section className="border-t border-line py-10 md:py-24">
           <div className="max-w-2xl">
-            <h2 className="font-serif text-4xl font-normal md:text-5xl">{t.sistersTitle}</h2>
-            <p className="mt-3 text-muted">{t.sistersBody}</p>
+            <h2 className="font-serif text-3xl font-normal md:text-5xl">{t.sistersTitle}</h2>
+            <p className="mt-2 text-sm text-muted md:mt-3 md:text-base">{t.sistersBody}</p>
           </div>
-          <ul className="mt-10 grid gap-4 md:grid-cols-2">
+          <ul className="mt-6 grid gap-4 md:mt-10 md:grid-cols-2">
             <li>
-              <a href={`${FAMILY.gold}/${l}`} className="group flex min-h-72 flex-col justify-between border border-line bg-white p-8 transition-colors hover:border-ink">
-                <span className="block h-2.5 w-28 bg-[#b8956c]" aria-hidden="true" />
-                <span>
-                  <span className="block font-serif text-4xl font-normal md:text-5xl">{t.family.gold}</span>
-                  <span className="mt-3 block text-sm text-muted">{t.sistersCards.goldNote}</span>
+              <a href={`${FAMILY.gold}/${l}`} className="group block border border-line bg-white transition-colors hover:border-ink">
+                <span className="relative block aspect-[16/10] overflow-hidden bg-white">
+                  <Image src={studio.gold.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" className="object-contain transition-transform duration-500 group-hover:scale-105" />
+                </span>
+                <span className="block border-t border-line p-5 md:p-6">
+                  <span className="block font-serif text-3xl font-normal md:text-4xl">{t.family.gold}</span>
+                  <span className="mt-2 block text-sm text-muted">{t.sistersCards.goldNote}</span>
                 </span>
               </a>
             </li>
             <li>
-              <a href={`${FAMILY.jewelry}/${l}`} className="group flex min-h-72 flex-col justify-between border border-line bg-white p-8 transition-colors hover:border-ink">
-                <svg viewBox="0 0 64 40" className="h-10 w-16 text-ink" aria-hidden="true">
-                  <ellipse cx="24" cy="20" rx="16" ry="11" fill="none" stroke="currentColor" strokeWidth="1.25" />
-                  <ellipse cx="40" cy="20" rx="16" ry="11" fill="none" stroke="currentColor" strokeWidth="1.25" />
-                </svg>
-                <span>
-                  <span className="block font-serif text-4xl font-normal md:text-5xl">{t.family.jewelry}</span>
-                  <span className="mt-3 block text-sm text-muted">{t.sistersCards.jewelryNote}</span>
+              <a href={`${FAMILY.jewelry}/${l}`} className="group block border border-line bg-white transition-colors hover:border-ink">
+                <span className="relative block aspect-[16/10] overflow-hidden bg-white">
+                  <Image src={studio.jewelry.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" className="object-contain transition-transform duration-500 group-hover:scale-105" />
+                </span>
+                <span className="block border-t border-line p-5 md:p-6">
+                  <span className="block font-serif text-3xl font-normal md:text-4xl">{t.family.jewelry}</span>
+                  <span className="mt-2 block text-sm text-muted">{t.sistersCards.jewelryNote}</span>
                 </span>
               </a>
             </li>
           </ul>
         </section>
 
-        <section className="border-t border-line py-16 md:py-24">
+        <section className="border-t border-line py-10 md:py-24">
           <p className="text-[11px] uppercase tracking-[0.22em] text-muted">{t.closing.eyebrow}</p>
           <h2 className="mt-4 max-w-xl font-serif text-4xl font-normal md:text-6xl">{t.closing.title}</h2>
           <Link href={`/${l}/diamanten`} className="btn btn-solid mt-8">{t.hero.cta}</Link>

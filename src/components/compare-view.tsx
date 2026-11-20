@@ -68,8 +68,9 @@ export function CompareBar({ l }: { l: Locale }) {
   const { slugs } = useCompare();
   const path = usePathname() || "";
   if (!slugs.length || path.includes("/vergleich")) return null;
+  const aboveFilters = /\/diamanten\/?$/.test(path);
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 backdrop-blur-md">
+    <div className={`fixed inset-x-0 z-30 border-t border-line bg-paper/95 backdrop-blur-md ${aboveFilters ? "bottom-[4.75rem] lg:bottom-0" : "bottom-0"}`}>
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:px-8">
         <p className="text-sm">{t.compare.count(slugs.length)}</p>
         <Link href={`/${l}/vergleich?compare=${slugs.join(",")}`} className="btn btn-solid min-h-11 px-5">{t.nav.compare}</Link>
