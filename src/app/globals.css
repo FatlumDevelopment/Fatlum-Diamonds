@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource/cormorant-garamond/latin-400.css";
-@import "@fontsource/cormorant-garamond/latin-500.css";
-@import "@fontsource/inter/latin-400.css";
-@import "@fontsource/inter/latin-500.css";
 
 @theme {
   --color-paper: #f6f4f0;
@@ -11,8 +7,8 @@
   --color-line: #e4dfd6;
   --color-line-strong: #cfc8bc;
   --color-danger: #8d2e2e;
-  --font-serif: "Cormorant Garamond", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
-  --font-sans: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-cormorant), "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+  --font-sans: var(--font-inter), "Helvetica Neue", Helvetica, Arial, sans-serif;
   --header-offset: 4rem;
 }
 

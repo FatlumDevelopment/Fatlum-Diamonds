@@ -101,7 +101,7 @@ export function Header({ l }: { l: Locale }) {
         </div>
       </div>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-3 md:px-8">
-        <Link href={`/${l}`} className="flex min-w-0 items-center gap-2.5 text-ink" aria-label="Fatlum Diamonds">
+        <Link href={`/${l}`} className="flex min-w-0 items-center gap-2.5 text-ink">
           <Mark className="h-7 w-7 shrink-0" />
           <span className="flex min-w-0 flex-col">
             <span className="font-serif text-[1.65rem] leading-none tracking-[0.04em]">Fatlum</span>

@@ -33,7 +33,7 @@ export function CompareView({ stones, l }: { stones: Stone[]; l: Locale }) {
               <th className="w-40 p-4 text-left text-[11px] font-medium uppercase tracking-[0.14em] text-muted">{t.compare.title}</th>
               {picked.map((stone) => (
                 <th key={stone.slug} className="min-w-48 p-4 text-left align-top font-normal">
-                  <Link href={`/${l}/diamanten/${stone.slug}`} className="block w-28 border border-line">
+                  <Link href={`/${l}/diamanten/${stone.slug}`} aria-label={shapeLabel(l, stone.shape)} className="block w-28 border border-line">
                     <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="112px" />
                   </Link>
                   <Link href={`/${l}/diamanten/${stone.slug}`} className="mt-3 block font-serif text-2xl font-normal">{shapeLabel(l, stone.shape)}</Link>

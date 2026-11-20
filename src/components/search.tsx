@@ -190,19 +190,19 @@ function StoneCard({ stone, l }: { stone: Stone; l: Locale }) {
   const name = `${shapeLabel(l, stone.shape)} ${formatCarat(stone.carat, l)} ct`;
   return (
     <li data-testid="stone-card" className="flex flex-col">
-      <Link href={`/${l}/diamanten/${stone.slug}`} className="block border border-line">
-        <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="(min-width: 1280px) 300px, (min-width: 640px) 46vw, 92vw" />
+      <Link href={`/${l}/diamanten/${stone.slug}`} className="block">
+        <span className="block border border-line">
+          <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="(min-width: 1280px) 300px, (min-width: 640px) 46vw, 92vw" />
+        </span>
+        <span className="mt-4 flex items-baseline justify-between gap-3">
+          <h2 className="font-serif text-[1.65rem] font-normal leading-none">{name}</h2>
+          {stone.is_example ? <span className="text-[10px] tracking-[0.16em] text-muted">{t.exampleBadge}</span> : null}
+        </span>
+        <p className="mt-2 text-sm text-muted">{stone.color} · {stone.clarity} · {gradeLabel(l, stone.cut)} · {labLabel(l, stone.cert_lab)}</p>
+        <p className="mt-1 text-sm text-muted">{originLabel(l, stone.origin)}</p>
+        <p className="mt-3 font-serif text-2xl font-normal">{t.priceOnRequest}</p>
       </Link>
-      <div className="mt-4 flex items-baseline justify-between gap-3">
-        <h2 className="font-serif text-[1.65rem] font-normal leading-none">
-          <Link href={`/${l}/diamanten/${stone.slug}`} className="hover:underline">{name}</Link>
-        </h2>
-        {stone.is_example ? <span className="text-[10px] tracking-[0.16em] text-muted">{t.exampleBadge}</span> : null}
-      </div>
-      <p className="mt-2 text-sm text-muted">{stone.color} · {stone.clarity} · {gradeLabel(l, stone.cut)} · {labLabel(l, stone.cert_lab)}</p>
-      <p className="mt-1 text-sm text-muted">{originLabel(l, stone.origin)}</p>
-      <p className="mt-3 font-serif text-2xl font-normal">{t.priceOnRequest}</p>
-      <div className="mt-4"><StoneActions stone={stone} l={l} layout="card" /></div>
+      <div className="mt-1"><StoneActions stone={stone} l={l} layout="card" /></div>
     </li>
   );
 }
@@ -217,7 +217,7 @@ function ResultsList({ stones, l }: { stones: Stone[]; l: Locale }) {
           return (
             <li key={stone.slug} data-testid="stone-row" className="py-6">
               <div className="flex gap-4">
-                <Link href={`/${l}/diamanten/${stone.slug}`} className="w-28 shrink-0 border border-line">
+                <Link href={`/${l}/diamanten/${stone.slug}`} aria-label={name} className="w-28 shrink-0 border border-line">
                   <DiamondMedia shape={stone.shape} slug={stone.slug} alt="" decorative sizes="112px" />
                 </Link>
                 <div className="min-w-0">

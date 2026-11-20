@@ -29,7 +29,7 @@ export function RequestList({ l, intent = "list" }: { l: Locale; intent?: "list"
         <ul className="divide-y divide-line border-y border-line">
           {items.map((item) => (
             <li key={item.slug} className="flex items-center gap-4 py-5" data-testid="request-row">
-              <Link href={`/${l}/diamanten/${item.slug}`} className="w-24 shrink-0 border border-line">
+              <Link href={`/${l}/diamanten/${item.slug}`} aria-label={`${shapeLabel(l, item.shape)} ${formatCarat(item.carat, l)} ct`} className="w-24 shrink-0 border border-line">
                 <DiamondMedia shape={item.shape} slug={item.slug} alt="" decorative sizes="96px" />
               </Link>
               <div className="min-w-0 flex-1">
