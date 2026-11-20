@@ -17,6 +17,8 @@ export type FilterState = {
   fluorescences: Fluorescence[];
   labs: Lab[];
   origin: "" | Origin;
+  /** True shows the cabinet. False hides it: this house publishes no prices. */
+  priceOnRequest: boolean;
   sort: SortKey;
   view: ViewMode;
 };
@@ -35,6 +37,7 @@ export const emptyFilters = (): FilterState => ({
   fluorescences: [],
   labs: [],
   origin: "",
+  priceOnRequest: true,
   sort: "caratDesc",
   view: "grid",
 });
@@ -64,6 +67,7 @@ export function filtersFromParams(sp: URLSearchParams): FilterState {
     fluorescences: pick(asList(sp.get("fluorescence")), FLUORESCENCE),
     labs: pick(asList(sp.get("lab")), LABS),
     origin: origin === "natural" || origin === "lab" ? origin : "",
+    priceOnRequest: sp.get("por") !== "0",
     sort: sorts.includes(sort as SortKey) ? (sort as SortKey) : "caratDesc",
     view: view === "list" ? "list" : "grid",
   };
@@ -84,6 +88,7 @@ export function filtersToQuery(f: FilterState, compare: string[]): string {
   if (f.fluorescences.length) p.set("fluorescence", f.fluorescences.join(","));
   if (f.labs.length) p.set("lab", f.labs.join(","));
   if (f.origin) p.set("origin", f.origin);
+  if (!f.priceOnRequest) p.set("por", "0");
   if (f.sort !== "caratDesc") p.set("sort", f.sort);
   if (f.view !== "grid") p.set("view", f.view);
   if (compare.length) p.set("compare", compare.slice(0, 4).join(","));
@@ -111,6 +116,7 @@ export function applyFilters(stones: Stone[], f: FilterState): Stone[] {
   const lo = min !== null && max !== null && Number.isFinite(min) && Number.isFinite(max) ? Math.min(min, max) : min;
   const hi = min !== null && max !== null && Number.isFinite(min) && Number.isFinite(max) ? Math.max(min, max) : max;
   const rows = stones.filter((s) => {
+    if (!f.priceOnRequest) return false;
     if (f.shapes.length && !f.shapes.includes(s.shape)) return false;
     if (lo !== null && Number.isFinite(lo) && s.carat < lo) return false;
     if (hi !== null && Number.isFinite(hi) && s.carat > hi) return false;
@@ -146,5 +152,26 @@ export function activeFilterCount(f: FilterState) {
     f.fluorescences.length > 0,
     f.labs.length > 0,
     f.origin !== "",
+    !f.priceOnRequest,
   ].filter(Boolean).length;
+}
+
+export const CARAT_PRESETS = [
+  { min: "0.30", max: "0.49" },
+  { min: "0.50", max: "0.99" },
+  { min: "1.00", max: "1.49" },
+  { min: "1.50", max: "1.99" },
+  { min: "2.00", max: "" },
+] as const;
+
+export function nextGradeRange(from: string, to: string, value: string, scale: readonly string[]) {
+  if (!from && !to) return { from: value, to: value };
+  if (from === to) {
+    if (from === value) return { from: "", to: "" };
+    const a = scale.indexOf(from);
+    const b = scale.indexOf(value);
+    if (a < 0 || b < 0) return { from: value, to: value };
+    return { from: scale[Math.min(a, b)] || value, to: scale[Math.max(a, b)] || value };
+  }
+  return { from: value, to: value };
 }

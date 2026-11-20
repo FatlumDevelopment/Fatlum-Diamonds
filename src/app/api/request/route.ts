@@ -20,7 +20,10 @@ export async function POST(req: Request) {
   const email = text(body.email, 254);
   const phone = text(body.phone, 50);
   const company = text(body.company, 200);
-  const message = text(body.message, 4000);
+  const rawMessage = text(body.message, 3800);
+  const reserve = body.intent === "reserve" && kind === "list";
+  const note = reserve ? (locale === "en" ? "Reservation request." : "Reservierung.") : "";
+  const message = [note, rawMessage].filter(Boolean).join("\n\n").slice(0, 4000);
   if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || body.consent !== true) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }

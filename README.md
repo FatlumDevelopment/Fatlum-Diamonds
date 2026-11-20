@@ -30,7 +30,11 @@ RLS: anonymous and authenticated users may select active stones and insert inqui
 
 ## Email
 
-`POST /api/request` stores the inquiry. Resend runs only when `RESEND_API_KEY` is set. Otherwise the request is stored and the response says email was skipped.
+`POST /api/request` stores the inquiry. A reservation is the same list, stored with a reservation note in the message. Resend runs only when `RESEND_API_KEY` is set. Otherwise the request is stored and the response says email was skipped.
+
+## Photographs
+
+Original studio frames, one per shape, live in `public/images/shapes/<shape>.webp` (and `.avif`). Heroes and the certificate and tweezers frames are under `public/images/heroes` and `public/images/studio`. Backgrounds are lifted to pure white. `next/image` serves AVIF where the browser accepts it, otherwise WebP. Search filters keep the line icons. A later per-stone file is `/images/products/<slug>.webp`, registered in `src/lib/images.ts`.
 
 ## Environment
 

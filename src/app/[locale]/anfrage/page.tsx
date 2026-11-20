@@ -1,27 +1,37 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SiteShell } from "@/components/chrome";
 import { RequestList } from "@/components/request-list";
+import { Container, Main, PageHeader } from "@/components/frame";
 import { dict, isLocale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/meta";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const l = isLocale(locale) ? locale : "de";
-  return pageMeta(l, dict(l).request.title, dict(l).request.noPayment, "/anfrage");
+  return pageMeta(l, dict(l).request.title, dict(l).request.lede, "/anfrage");
 }
 
-export default async function RequestPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function RequestPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ intent?: string }>;
+}) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
+  const { intent: raw } = await searchParams;
+  const intent = raw === "reserve" ? "reserve" : "list";
   const t = dict(locale);
   return (
-    <SiteShell l={locale}>
-      <main id="content" className="mx-auto max-w-7xl px-4 py-8">
-        <h1 className="font-serif text-4xl text-navy">{t.request.title}</h1>
-        <p className="mt-2 text-sm text-gray-600">{t.noPrices}</p>
-        <RequestList l={locale} />
-      </main>
-    </SiteShell>
+    <Main>
+      <Container className="py-12 md:py-16">
+        <PageHeader
+          title={intent === "reserve" ? t.request.reserveTitle : t.request.title}
+          lede={intent === "reserve" ? t.request.reserveLede : t.request.lede}
+        />
+        <RequestList l={locale} intent={intent} />
+      </Container>
+    </Main>
   );
 }
