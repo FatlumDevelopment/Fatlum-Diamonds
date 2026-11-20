@@ -188,7 +188,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <li>
               <a href={`${FAMILY.gold}/${l}`} className="group block border border-line bg-white transition-colors hover:border-ink">
                 <span className="relative block aspect-[16/10] overflow-hidden bg-white">
-                  <Image src={studio.gold.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" className="object-contain transition-transform duration-500 group-hover:scale-105" />
+                  <Image src={studio.gold.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" loading="eager" className="object-contain transition-transform duration-500 group-hover:scale-105" />
                 </span>
                 <span className="block border-t border-line p-5 md:p-6">
                   <span className="block font-serif text-3xl font-normal md:text-4xl">{t.family.gold}</span>
@@ -199,7 +199,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             <li>
               <a href={`${FAMILY.jewelry}/${l}`} className="group block border border-line bg-white transition-colors hover:border-ink">
                 <span className="relative block aspect-[16/10] overflow-hidden bg-white">
-                  <Image src={studio.jewelry.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" className="object-contain transition-transform duration-500 group-hover:scale-105" />
+                  <Image src={studio.jewelry.src} alt="" fill sizes="(min-width: 768px) 40vw, 92vw" loading="eager" className="object-contain transition-transform duration-500 group-hover:scale-105" />
                 </span>
                 <span className="block border-t border-line p-5 md:p-6">
                   <span className="block font-serif text-3xl font-normal md:text-4xl">{t.family.jewelry}</span>
