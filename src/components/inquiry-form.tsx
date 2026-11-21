@@ -80,8 +80,8 @@ export function InquiryForm({
   if (state === "ok") {
     return (
       <div data-testid="success" role="status" className="border border-line bg-white px-6 py-10">
-        <p className="font-serif text-4xl font-normal leading-tight">{t.request.successTitle}</p>
-        <p className="mt-4 text-muted">{t.request.success}</p>
+        <p className="font-serif text-4xl font-normal leading-tight">{stored || mail === "sent" ? t.request.successTitle : t.request.successWriteTitle}</p>
+        <p className="mt-4 text-muted">{stored || mail === "sent" ? t.request.success : t.request.successWriteLead}</p>
         {ref ? <p className="mt-4 text-sm">{t.request.ref} {ref}</p> : null}
         <p className="mt-3 text-sm leading-relaxed text-muted">
           {mail === "sent" ? t.request.successMail : mail === "failed" ? t.request.successMailFailed : stored ? t.request.successNoMail : t.request.successWrite}
