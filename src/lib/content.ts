@@ -53,19 +53,19 @@ const topics: Record<TopicSlug, Record<Locale, Topic>> = {
   zertifikate: {
     de: {
       title: "Zertifikate und Labore",
-      intro: "Fatlum bietet Diamanten mit Bericht von GIA, IGI oder HRD an. Alle drei Labore sind im Filter auswählbar. Wir zeigen keine Logos und keine geschützten Zeichen dieser Stellen.",
+      intro: "Fatlum bietet Diamanten mit Bericht von GIA, IGI, HRD und weiteren anerkannten Laboren an, darunter AGS, GCAL und GSI. Jedes Labor lässt sich filtern. Wir setzen keine Zeichen dieser Institute.",
       sections: [
         { heading: "Was ein Bericht festhält", paragraphs: ["Ein Laborbericht identifiziert den Stein über Maße und oft eine Einschlusszeichnung, und er notiert Karat, Farbe, Reinheit, Politur, Symmetrie, Fluoreszenz und bei runden Brillanten meist eine Cut-Note. Die Berichtsnummer im Beispielkatalog beginnt mit EXAMPLE und ist keine echte Nummer."] },
-        { heading: "Wie wir die Labore behandeln", paragraphs: ["GIA, IGI und HRD arbeiten mit eigenen Skalen und eigenen Toleranzen. Wir geben die Note so wieder, wie sie auf dem Bericht steht, und übersetzen sie nicht in eine hausinterne Punktzahl. Welches Labor zu einem Stein gehört, steht in der Suche und auf der Detailseite."] },
+        { heading: "Wie wir die Labore behandeln", paragraphs: ["GIA, IGI, HRD, AGS, GCAL, GSI und weitere anerkannte Labore arbeiten mit eigenen Skalen. Wir geben die Note so wieder, wie sie auf dem Bericht steht, und übersetzen sie nicht in eine hausinterne Punktzahl. Welches Labor zu einem Stein gehört, steht in der Suche und auf der Detailseite."] },
         { heading: "Was Sie mit der Anfrage bekommen", paragraphs: ["Im persönlichen Angebot nennen wir den Bericht, den wir zum Stein mitgeben. Einen Beispielstein können Sie nicht als geprüfte Ware kaufen. Sobald echter Bestand angebunden ist, bleibt die Kennzeichnung EXAMPLE nur an den Mustern."] },
       ],
     },
     en: {
       title: "Certificates and laboratories",
-      intro: "Fatlum offers diamonds with a GIA, IGI or HRD report. All three laboratories can be selected in the filter. We do not show their logos or protected marks.",
+      intro: "Fatlum offers diamonds with a report from GIA, IGI, HRD and other recognised laboratories, including AGS, GCAL and GSI. Each laboratory can be filtered. We do not use those institutes’ marks.",
       sections: [
         { heading: "What a report records", paragraphs: ["A laboratory report identifies the stone through measurements and often a plot of features, and it records carat, colour, clarity, polish, symmetry, fluorescence and, on round brilliants, usually a cut grade. Report numbers in the example catalog start with EXAMPLE and are not real numbers."] },
-        { heading: "How we treat the laboratories", paragraphs: ["GIA, IGI and HRD use their own scales and tolerances. We repeat the grade as printed on the report and do not convert it into a house score. Which laboratory belongs to a stone is shown in the search and on the detail page."] },
+        { heading: "How we treat the laboratories", paragraphs: ["GIA, IGI, HRD, AGS, GCAL, GSI and other recognised laboratories use their own scales. We repeat the grade as printed on the report and do not convert it into a house score. Which laboratory belongs to a stone is shown in the search and on the detail page."] },
         { heading: "What the request includes", paragraphs: ["The personal offer names the report we supply with the stone. An example stone cannot be bought as inspected goods. When real stock is connected, the EXAMPLE mark stays only on the samples."] },
       ],
     },
@@ -143,7 +143,7 @@ export function faqItems(l: Locale): { q: string; a: string }[] {
     return [
       { q: "Why are there no prices?", a: "Fatlum Diamonds confirms every stone in a personal offer. The site has no price column, no guide price and no checkout." },
       { q: "Are these stones in stock?", a: "No. The catalog is example data, marked EXAMPLE in the item number and the certificate number. It shows how search, comparison and the request list work." },
-      { q: "Which certificates do you offer?", a: "Reports from GIA, IGI and HRD. All three can be filtered. The EXAMPLE numbers on this site are not real reports." },
+      { q: "Which certificates do you offer?", a: "Reports from GIA, IGI, HRD and other recognised laboratories, including AGS, GCAL and GSI. All of them can be filtered. Numbers containing EXAMPLE on this site are samples, not reports you can look up." },
       { q: "Do you sell natural and lab-grown diamonds?", a: "Yes, always labelled. Use the origin filter to keep them apart. We do not claim an extra origin certification we cannot show." },
       { q: "How many stones can I compare?", a: "Four. The comparison lists specifications only." },
       { q: "What happens to my request?", a: "It is stored in the Fatlum database. If email delivery is configured, we send a confirmation and an internal notice. If it is not, the request is still stored and we read it there." },
@@ -156,7 +156,7 @@ export function faqItems(l: Locale): { q: string; a: string }[] {
   return [
     { q: "Warum stehen keine Preise auf der Seite?", a: "Fatlum Diamonds bestätigt jeden Stein in einem persönlichen Angebot. Es gibt keine Preisspalte, keinen Richtpreis und keine Kasse." },
     { q: "Sind diese Steine verfügbar?", a: "Nein. Der Katalog ist Beispieldaten, gekennzeichnet mit EXAMPLE in der Artikelnummer und der Zertifikatsnummer. Er zeigt, wie Suche, Vergleich und Anfrageliste funktionieren." },
-    { q: "Welche Zertifikate bieten Sie an?", a: "Berichte von GIA, IGI und HRD. Alle drei lassen sich filtern. Die EXAMPLE-Nummern auf dieser Seite sind keine echten Berichte." },
+    { q: "Welche Zertifikate bieten Sie an?", a: "Berichte von GIA, IGI, HRD und weiteren anerkannten Laboren, darunter AGS, GCAL und GSI. Alle lassen sich filtern. Nummern mit EXAMPLE auf dieser Seite sind Muster, keine abrufbaren Berichte." },
     { q: "Führen Sie Naturdiamanten und laborgezüchtete Steine?", a: "Ja, immer gekennzeichnet. Der Herkunftsfilter trennt sie. Eine zusätzliche Herkunftszertifizierung, die wir nicht belegen können, sprechen wir nicht aus." },
     { q: "Wie viele Steine kann ich vergleichen?", a: "Vier. Der Vergleich zeigt nur die Angaben, keine Preise." },
     { q: "Was passiert mit meiner Anfrage?", a: "Sie wird in der Fatlum-Datenbank gespeichert. Wenn der E-Mail-Versand eingerichtet ist, geht eine Bestätigung an Sie und ein Hinweis an uns. Wenn nicht, liegt die Anfrage trotzdem vor und wir lesen sie dort." },
@@ -172,14 +172,14 @@ export function aboutParagraphs(l: Locale): string[] {
     return [
       "Fatlum works from Maximilianstraße 2, 80539 Munich. The house is known for precious metals. Fatlum Diamonds is the loose-diamond desk of the same house, with its own address for mail: info@fatlum.diamonds, phone +49 89 20 500 85858.",
       "The legal entity, the managing directors, the commercial register and the VAT identification number are not published here yet. Those lines are marked as placeholders on the imprint.",
-      "Fatlum’s gold business may describe recycled and secondary precious metals. That sentence does not travel onto a diamond. On this site we state laboratory, measurements and whether a stone is natural or lab-grown, and we stop there.",
-      "The stones you can search today are examples, drawn so that every shape, both origins and all three laboratories appear. They are labelled EXAMPLE in the data and on the screen. They are not an offer.",
+      "Laboratory, measurements and origin sit with the stone. We claim nothing beyond that.",
+      "The stones you can search today are examples, drawn so that every shape, both origins and the laboratories we work with appear. They are labelled EXAMPLE in the data and on the screen. They are not an offer.",
     ];
   }
   return [
     "Fatlum arbeitet in der Maximilianstraße 2, 80539 München. Das Haus ist für Edelmetalle bekannt. Fatlum Diamonds ist der Schreibtisch für lose Diamanten desselben Hauses, mit eigener Postadresse info@fatlum.diamonds und Telefon +49 89 20 500 85858.",
     "Rechtsform, Geschäftsführung, Handelsregister und Umsatzsteuer-Identifikationsnummer stehen hier noch nicht. Diese Zeilen sind im Impressum als Platzhalter markiert.",
-    "Das Goldgeschäft von Fatlum darf recycelte und sekundäre Edelmetalle benennen. Dieser Satz wandert nicht auf einen Diamanten. Auf dieser Seite nennen wir Labor, Maße und ob ein Stein natürlich oder laborgezüchtet ist, und dabei bleibt es.",
-    "Die Steine, die Sie heute suchen können, sind Beispiele. Sie sind so gesetzt, dass jede Form, beide Herkünfte und alle drei Labore vorkommen. Sie tragen EXAMPLE in den Daten und auf dem Bildschirm. Sie sind kein Angebot.",
+    "Labor, Maße und Herkunft stehen am Stein. Mehr behaupten wir nicht.",
+    "Die Steine, die Sie heute suchen können, sind Beispiele. Sie sind so gesetzt, dass jede Form, beide Herkünfte und die Labore, mit denen wir arbeiten, vorkommen. Sie tragen EXAMPLE in den Daten und auf dem Bildschirm. Sie sind kein Angebot.",
   ];
 }

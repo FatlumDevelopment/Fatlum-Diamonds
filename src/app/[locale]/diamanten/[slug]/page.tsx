@@ -1,12 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DiamondShape } from "@/components/diamond-shape";
-import { SiteShell } from "@/components/chrome";
+import { DiamondMedia, StudioPhoto } from "@/components/media";
 import { StoneActions } from "@/components/stone-actions";
-import { formatCarat, formatPct, measurements } from "@/lib/format";
-import { dict, fluorLabel, gradeLabel, isLocale, originLabel, shapeLabel, type Locale } from "@/lib/i18n";
+import { Container, Crumbs, JsonLd, Main, SpecimenNote } from "@/components/frame";
+import { formatCarat } from "@/lib/format";
+import { dict, isLocale, labLabel, originLabel, shapeLabel, type Locale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/meta";
+import { studio } from "@/lib/images";
+import { ringConfiguratorUrl, siteUrl } from "@/lib/site";
+import { specRows } from "@/lib/specs";
 import { getCatalog, getStone } from "@/lib/stones";
 import type { Stone } from "@/lib/types";
 
@@ -16,31 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale, slug } = await params;
   const l: Locale = isLocale(locale) ? locale : "de";
   const { stone } = await getStone(slug);
-  const title = stone ? `${shapeLabel(l, stone.shape)} ${formatCarat(stone.carat, l)} ct ${stone.color} ${stone.clarity}` : dict(l).detail.notFound;
-  return pageMeta(l, title, dict(l).exampleBanner, `/diamanten/${slug}`);
-}
-
-function rows(stone: Stone, l: Locale) {
-  const t = dict(l);
-  const ratio = stone.width_mm ? (stone.length_mm / stone.width_mm) : 0;
-  return [
-    [t.specs.shape, shapeLabel(l, stone.shape)],
-    [t.specs.carat, `${formatCarat(stone.carat, l)} ct`],
-    [t.specs.color, stone.color],
-    [t.specs.clarity, stone.clarity],
-    [t.specs.cut, gradeLabel(l, stone.cut)],
-    [t.specs.polish, gradeLabel(l, stone.polish)],
-    [t.specs.symmetry, gradeLabel(l, stone.symmetry)],
-    [t.specs.fluorescence, fluorLabel(l, stone.fluorescence)],
-    [t.specs.measurements, measurements(stone.length_mm, stone.width_mm, stone.depth_mm, l)],
-    [t.detail.ratio, formatCarat(ratio, l)],
-    [t.specs.table, formatPct(stone.table_pct, l)],
-    [t.specs.depth, formatPct(stone.depth_pct, l)],
-    [t.specs.origin, originLabel(l, stone.origin)],
-    [t.specs.lab, stone.cert_lab],
-    [t.specs.cert, stone.cert_number],
-    [t.specs.sku, stone.sku],
-  ] as const;
+  if (!stone) return pageMeta(l, dict(l).detail.notFound, dict(l).detail.notFound, `/diamanten/${slug}`);
+  const name = `${shapeLabel(l, stone.shape)} ${formatCarat(stone.carat, l)} ct`;
+  const description = l === "de"
+    ? `${name}, Farbe ${stone.color}, Reinheit ${stone.clarity}, ${labLabel(l, stone.cert_lab)}. Preis auf Anfrage bei Fatlum Diamonds in München.`
+    : `${name}, colour ${stone.color}, clarity ${stone.clarity}, ${labLabel(l, stone.cert_lab)}. Price on request from Fatlum Diamonds in Munich.`;
+  return pageMeta(l, name, description, `/diamanten/${slug}`);
 }
 
 export default async function DetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
@@ -50,59 +34,112 @@ export default async function DetailPage({ params }: { params: Promise<{ locale:
   if (!stone) notFound();
   const t = dict(locale);
   const name = `${shapeLabel(locale, stone.shape)} ${formatCarat(stone.carat, locale)} ct`;
-  const related = (await getCatalog()).stones.filter((s) => s.shape === stone.shape && s.slug !== stone.slug).slice(0, 3);
+  const catalog = (await getCatalog()).stones;
+  const related = ["round", "oval", "emerald", "pear", "cushion", "princess"]
+    .filter((shape) => shape !== stone.shape)
+    .map((shape) => catalog.find((s) => s.shape === shape))
+    .filter((s): s is Stone => !!s)
+    .slice(0, 3);
+  const ring = ringConfiguratorUrl(locale, stone);
+  const rows = specRows(stone, locale);
   return (
-    <SiteShell l={locale}>
-      <main id="content" className="mx-auto max-w-7xl px-4 py-8">
-        <nav className="text-xs text-gray-500" aria-label={t.breadcrumb}>
-          <Link href={`/${locale}`} className="hover:text-gold">{t.home}</Link>
-          {" · "}
-          <Link href={`/${locale}/diamanten`} className="hover:text-gold">{t.nav.search}</Link>
-          {" · "}
-          <span className="text-navy">{name}</span>
-        </nav>
-        <div className="mt-4 rounded border border-dashed border-amber-500 bg-amber-50 p-4 text-sm text-amber-950">{t.exampleBanner}</div>
-        <div className="mt-8 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <DiamondShape shape={stone.shape} title={name} idSuffix={stone.sku} className="rounded-xl border border-gold/30 bg-cream" />
-          <div>
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="font-serif text-4xl text-navy md:text-5xl">{name}</h1>
-              {stone.is_example && <span className="rounded bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-900">{t.exampleBadge}</span>}
+    <Main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name,
+          sku: stone.sku,
+          brand: { "@type": "Brand", name: "Fatlum Diamonds" },
+          category: "Loose diamond",
+          description: t.priceOnRequest,
+          url: `${siteUrl()}/${locale}/diamanten/${stone.slug}`,
+          additionalProperty: rows.map(([name, value]) => ({ "@type": "PropertyValue", name, value })),
+        }}
+      />
+      <Container className="py-8 md:py-12">
+        <Crumbs
+          l={locale}
+          items={[
+            { href: `/${locale}`, label: t.home },
+            { href: `/${locale}/diamanten`, label: t.nav.search },
+            { label: name },
+          ]}
+        />
+        <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="lg:sticky lg:top-[calc(var(--header-offset)+1.5rem)] lg:self-start">
+            <div className="border border-line">
+              <DiamondMedia shape={stone.shape} slug={stone.slug} alt={name} priority sizes="(min-width: 1024px) 50vw, 92vw" />
             </div>
-            <p className="mt-2 text-gray-600">{stone.color} · {stone.clarity} · {originLabel(locale, stone.origin)} · {stone.cert_lab}</p>
-            <p className="mt-2 text-sm text-gray-500">{t.noPrices}</p>
-            <h2 className="mt-8 font-serif text-2xl text-navy">{t.detail.specs}</h2>
-            <dl className="mt-3 divide-y divide-gray-200 border-y border-gray-200">
-              {rows(stone, locale).map(([label, value]) => (
-                <div key={label} className="grid grid-cols-2 gap-3 py-2 text-sm">
-                  <dt className="text-gray-500">{label}</dt>
-                  <dd className="text-navy">{value}</dd>
+          </div>
+          <div>
+            <div className="flex flex-wrap items-baseline justify-between gap-3">
+              <h1 className="font-serif text-[2.65rem] font-normal leading-[1.02] md:text-6xl">{name}</h1>
+              {stone.is_example ? <span className="text-[10px] tracking-[0.16em] text-muted">{t.exampleBadge}</span> : null}
+            </div>
+            <p className="mt-4 text-muted">{stone.color} · {stone.clarity} · {originLabel(locale, stone.origin)} · {labLabel(locale, stone.cert_lab)}</p>
+            <p className="mt-6 font-serif text-4xl font-normal">{t.priceOnRequest}</p>
+            {stone.is_example ? <div className="mt-4"><SpecimenNote l={locale} show /></div> : null}
+            <div className="mt-8 max-w-md">
+              <StoneActions stone={stone} l={locale} />
+              <a href={ring} className="mt-6 flex min-h-12 flex-col justify-center border-t border-line pt-4">
+                <span className="text-sm underline underline-offset-4">{t.detail.setInRing}</span>
+                <span className="mt-1 text-xs text-muted">{t.detail.setInRingNote}</span>
+              </a>
+            </div>
+
+            <h2 className="mt-14 font-serif text-3xl font-normal">{t.detail.specs}</h2>
+            <dl className="mt-4 border-t border-line">
+              {rows.map(([label, value]) => (
+                <div key={label} className="grid grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] gap-3 border-b border-line py-3 text-sm">
+                  <dt className="text-muted">{label}</dt>
+                  <dd>{value}</dd>
                 </div>
               ))}
             </dl>
-            <h2 className="mt-8 font-serif text-2xl text-navy">{t.detail.certificate}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-gray-700">{t.detail.certificateBody}</p>
-            <p className="mt-2 text-sm font-medium text-navy">{stone.cert_lab} · {stone.cert_number}</p>
-            <div className="mt-6 max-w-sm"><StoneActions stone={stone} l={locale} /></div>
+
+            <section className="mt-14 border border-line bg-white" aria-labelledby="certificate-title">
+              <StudioPhoto
+                src={studio.certificate.src}
+                width={studio.certificate.width}
+                height={studio.certificate.height}
+                sizes="(min-width: 1024px) 520px, 92vw"
+                alt={locale === "de" ? "Diamant auf einem Zertifikat" : "Diamond on a certificate"}
+                className="h-auto w-full"
+              />
+              <div className="p-6 md:p-8">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-muted">{labLabel(locale, stone.cert_lab)}</p>
+                <h2 id="certificate-title" className="mt-2 font-serif text-3xl font-normal">{t.detail.certificate}</h2>
+                <p className="mt-4 text-sm leading-relaxed">{stone.cert_number}</p>
+                <p className="mt-4 text-sm leading-relaxed text-muted">{t.detail.certificateLead}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{t.detail.certificateBody}</p>
+              </div>
+            </section>
           </div>
         </div>
-        {related.length > 0 && (
-          <section className="mt-14">
-            <h2 className="font-serif text-2xl text-navy">{shapeLabel(locale, stone.shape)}</h2>
-            <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+
+        {related.length > 0 ? (
+          <section className="mt-16 border-t border-line pt-12 md:mt-24">
+            <h2 className="font-serif text-3xl font-normal md:text-4xl">{t.detail.related}</h2>
+            <ul className="mt-6 grid gap-6 sm:grid-cols-3">
               {related.map((other) => (
                 <li key={other.slug}>
-                  <Link href={`/${locale}/diamanten/${other.slug}`} className="block rounded-lg border border-gray-200 p-3 hover:border-gold">
-                    <p className="font-serif text-xl text-navy">{formatCarat(other.carat, locale)} ct · {other.color} {other.clarity}</p>
-                    <p className="text-xs text-gray-500">{other.cert_lab} · {other.sku}</p>
+                  <Link href={`/${locale}/diamanten/${other.slug}`} className="group block">
+                    <span className="block border border-line bg-white transition-colors group-hover:border-ink">
+                      <DiamondMedia shape={other.shape} slug={other.slug} alt={shapeLabel(locale, other.shape)} eager sizes="(min-width: 640px) 30vw, 92vw" />
+                    </span>
+                    <span className="mt-3 block font-serif text-2xl group-hover:underline">{formatCarat(other.carat, locale)} ct · {other.color} {other.clarity}</span>
+                    <span className="mt-1 block text-sm text-muted">{labLabel(locale, other.cert_lab)} · {t.priceOnRequest}</span>
                   </Link>
                 </li>
               ))}
             </ul>
           </section>
-        )}
-        <p className="mt-10"><Link href={`/${locale}/diamanten`} className="text-sm text-secondary underline">{t.detail.back}</Link></p>
-      </main>
-    </SiteShell>
+        ) : null}
+        <p className="mt-12">
+          <Link href={`/${locale}/diamanten`} className="inline-flex min-h-11 items-center text-sm underline underline-offset-4">{t.detail.back}</Link>
+        </p>
+      </Container>
+    </Main>
   );
 }

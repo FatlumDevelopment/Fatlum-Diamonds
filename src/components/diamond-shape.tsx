@@ -1,42 +1,50 @@
 import type { Shape } from "@/lib/types";
 
 const PATHS: Record<Shape, string> = {
-  round: "M100 28 A72 72 0 1 1 99.9 28 Z",
-  princess: "M40 40 H160 V160 H40 Z",
-  cushion: "M72 34 H128 Q166 34 166 72 V128 Q166 166 128 166 H72 Q34 166 34 128 V72 Q34 34 72 34 Z",
-  oval: "M100 22 C142 22 162 58 162 100 C162 142 142 178 100 178 C58 178 38 142 38 100 C38 58 58 22 100 22 Z",
-  emerald: "M68 30 H132 L170 62 V138 L132 170 H68 L30 138 V62 Z",
-  pear: "M100 24 C148 58 164 108 100 178 C36 108 52 58 100 24 Z",
-  marquise: "M100 18 C152 52 166 100 100 182 C34 100 48 52 100 18 Z",
-  radiant: "M56 36 H144 L172 64 V136 L144 164 H56 L28 136 V64 Z",
-  asscher: "M62 36 H138 L164 62 V138 L138 164 H62 L36 138 V62 Z",
-  heart: "M100 170 C28 118 30 70 62 52 C82 42 96 56 100 72 C104 56 118 42 138 52 C170 70 172 118 100 170 Z",
+  round: "M100 18 A82 82 0 1 1 99.9 18 Z",
+  princess: "M46 46 H154 V154 H46 Z",
+  cushion: "M78 36 H122 Q164 36 164 78 V122 Q164 164 122 164 H78 Q36 164 36 122 V78 Q36 36 78 36 Z",
+  oval: "M100 18 C148 18 170 56 170 100 C170 144 148 182 100 182 C52 182 30 144 30 100 C30 56 52 18 100 18 Z",
+  emerald: "M70 28 H130 L172 64 V136 L130 172 H70 L28 136 V64 Z",
+  pear: "M100 20 C152 56 168 112 100 182 C32 112 48 56 100 20 Z",
+  marquise: "M100 14 C158 52 172 100 100 186 C28 100 42 52 100 14 Z",
+  radiant: "M58 34 H142 L174 66 V134 L142 166 H58 L26 134 V66 Z",
+  asscher: "M64 34 H136 L166 64 V136 L136 166 H64 L34 136 V64 Z",
+  heart: "M100 172 C26 118 28 68 62 50 C82 40 96 54 100 72 C104 54 118 40 138 50 C172 68 174 118 100 172 Z",
 };
 
-export function DiamondShape({ shape, title, className = "", idSuffix = "" }: { shape: Shape; title?: string; className?: string; idSuffix?: string }) {
-  const id = `d-${shape}-${(idSuffix || title || "mark").replace(/[^a-z0-9]+/gi, "")}`;
+export function Mark({ className = "h-7 w-7" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 200 200" className={className} role="img" aria-label={title || shape}>
-      <defs>
-        <linearGradient id={`${id}-fill`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.5" stopColor="#e6eef8" />
-          <stop offset="1" stopColor="#c5d0e2" />
-        </linearGradient>
-        <clipPath id={`${id}-clip`}>
-          <path d={PATHS[shape]} />
-        </clipPath>
-      </defs>
-      <circle cx="100" cy="100" r="96" fill="#f8f5ee" />
-      <path d={PATHS[shape]} fill={`url(#${id}-fill)`} stroke="#bf9e50" strokeWidth="3" />
-      <g clipPath={`url(#${id}-clip)`} stroke="#243673" strokeWidth="1.15" opacity="0.55">
-        <path d="M100 36 L148 78 L100 100 L52 78 Z" fill="rgba(255,255,255,.72)" />
-        <path d="M52 78 L100 100 L58 150 Z" fill="rgba(191,158,80,.18)" />
-        <path d="M148 78 L100 100 L142 150 Z" fill="rgba(3,18,63,.08)" />
-        <path d="M58 150 L100 100 L142 150 L100 168 Z" fill="rgba(255,255,255,.45)" />
-        <path d="M100 36 V168 M52 78 H148 M58 150 H142 M76 58 L100 100 L124 58" fill="none" />
-      </g>
-      <path d="M100 86 L114 100 L100 114 L86 100 Z" fill="rgba(255,255,255,.9)" stroke="#bf9e50" strokeWidth="1.2" />
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <path d="M16 3.5 27 12.2 16 28.5 5 12.2 Z" fill="none" stroke="currentColor" strokeWidth="1.15" />
+      <path d="M5 12.2h22M11.2 12.2 16 28.5 20.8 12.2M16 3.5 11.2 12.2M16 3.5 20.8 12.2" fill="none" stroke="currentColor" strokeWidth="0.75" />
+    </svg>
+  );
+}
+
+export function DiamondShape({
+  shape,
+  title,
+  className = "",
+  decorative = false,
+}: {
+  shape: Shape;
+  title?: string;
+  className?: string;
+  decorative?: boolean;
+}) {
+  const labelled = !decorative;
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      className={className}
+      aria-hidden={decorative || undefined}
+      role={labelled ? "img" : undefined}
+      aria-label={labelled ? title || shape : undefined}
+    >
+      <path d={PATHS[shape]} fill="currentColor" fillOpacity="0.05" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M100 42 148 78 100 164 52 78 Z" fill="none" stroke="currentColor" strokeWidth="0.9" opacity="0.55" />
+      <path d="M52 78h96M100 42v122" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.45" />
     </svg>
   );
 }

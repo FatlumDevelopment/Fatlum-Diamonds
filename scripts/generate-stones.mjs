@@ -6,7 +6,7 @@ const COLORS = ["D", "E", "F", "G", "H", "I", "J", "K", "L", "M"];
 const CLARITIES = ["FL", "IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1", "I2", "I3"];
 const GRADES = ["Excellent", "Very Good", "Good", "Fair"];
 const FLUOR = ["None", "Faint", "Medium", "Strong", "Very Strong"];
-const LABS = ["GIA", "IGI", "HRD"];
+const LABS = ["GIA", "IGI", "HRD", "AGS", "GCAL", "GSI", "Other"];
 const RATIO = {
   round: 1, princess: 1.02, cushion: 1.08, oval: 1.42, emerald: 1.48,
   pear: 1.55, marquise: 1.95, radiant: 1.3, asscher: 1.03, heart: 1.08,
@@ -32,10 +32,12 @@ const stones = carats.map((carat, i) => {
   const shape = SHAPES[i % SHAPES.length];
   const color = COLORS[i % COLORS.length];
   const clarity = CLARITIES[(i * 3) % CLARITIES.length];
-  const cut = GRADES[i % 5 === 4 ? 3 : i % 3];
-  const polish = GRADES[i % 4 === 3 ? 2 : i % 2];
-  const symmetry = GRADES[(i + 1) % 4 === 3 ? 2 : (i + 1) % 2];
-  const fluorescence = FLUOR[i % 7 === 0 ? 3 : i % 5 === 0 ? 2 : i % 3 === 0 ? 1 : 0];
+  const gradeCycle = ["Excellent", "Very Good", "Excellent", "Good", "Very Good", "Excellent", "Fair", "Very Good"];
+  let cut = shape === "round" ? gradeCycle[i % gradeCycle.length] : null;
+  if (shape === "round" && carat >= 1 && (cut === "Fair" || cut === "Good")) cut = "Excellent";
+  const polish = gradeCycle[(i + 2) % gradeCycle.length];
+  const symmetry = gradeCycle[(i + 4) % gradeCycle.length];
+  const fluorescence = FLUOR[i % 9 === 0 ? 3 : i % 5 === 0 ? 2 : i % 3 === 0 ? 1 : 0];
   const cert_lab = LABS[i % LABS.length];
   const origin = i % 3 === 0 ? "lab" : "natural";
   const table_pct = 53 + (i % 9);
@@ -65,7 +67,12 @@ mkdirSync("data", { recursive: true });
 writeFileSync("data/stones.json", JSON.stringify(stones, null, 2) + "\n");
 
 const cols = ["id", "sku", "slug", "shape", "carat", "color", "clarity", "cut", "polish", "symmetry", "fluorescence", "cert_lab", "cert_number", "origin", "length_mm", "width_mm", "depth_mm", "table_pct", "depth_pct", "in_stock", "is_example", "is_active", "example_marker"];
-const quote = (v) => (typeof v === "string" ? `'${v}'` : typeof v === "boolean" ? (v ? "true" : "false") : String(v));
+const quote = (v) => {
+  if (v == null) return "null";
+  if (typeof v === "string") return `'${v.replace(/'/g, "''")}'`;
+  if (typeof v === "boolean") return v ? "true" : "false";
+  return String(v);
+};
 const values = stones.map((s) => `  (${cols.map((c) => quote(s[c])).join(", ")})`).join(",\n");
 
 const sql = `-- Fatlum Diamonds example catalog. Every row is marked EXAMPLE and is not live stock.

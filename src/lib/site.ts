@@ -19,3 +19,17 @@ export const FAMILY = {
 export function siteUrl() {
   return (process.env.NEXT_PUBLIC_SITE_URL || FAMILY.diamonds).replace(/\/$/, "");
 }
+
+/** Hand-off to the jewelry house ring configurator. Unknown query keys are ignored there. */
+export function ringConfiguratorUrl(
+  locale: "de" | "en",
+  stone: { sku: string; shape: string; carat: number; color: string; clarity: string },
+) {
+  const url = new URL(`${FAMILY.jewelry}/${locale}/konfigurator`);
+  url.searchParams.set("diamant", stone.sku);
+  url.searchParams.set("form", stone.shape);
+  url.searchParams.set("karat", stone.carat.toFixed(2));
+  url.searchParams.set("farbe", stone.color);
+  url.searchParams.set("reinheit", stone.clarity);
+  return url.toString();
+}

@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SiteShell } from "@/components/chrome";
 import { Search } from "@/components/search";
+import { Container, Main } from "@/components/frame";
 import { dict, isLocale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/meta";
 import { getCatalog } from "@/lib/stones";
@@ -21,12 +21,12 @@ export default async function DiamondsPage({ params }: { params: Promise<{ local
   if (!isLocale(locale)) notFound();
   const { stones } = await getCatalog();
   return (
-    <SiteShell l={locale}>
-      <main id="content" className="mx-auto max-w-7xl px-4 py-8">
-        <Suspense fallback={<p className="text-sm text-gray-500">…</p>}>
+    <Main>
+      <Container className="py-10 md:py-14">
+        <Suspense fallback={<p className="text-sm text-muted">{dict(locale).loading}</p>}>
           <Search stones={stones} l={locale} />
         </Suspense>
-      </main>
-    </SiteShell>
+      </Container>
+    </Main>
   );
 }
