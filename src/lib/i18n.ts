@@ -175,7 +175,9 @@ const de = {
     successTitle: "Ihre Anfrage ist eingegangen.",
     success: "Wir melden uns persönlich.",
     successMail: "Eine Bestätigung ist an Ihre E-Mail unterwegs.",
-    successNoMail: "Eine automatische E-Mail ist noch nicht eingerichtet. Ihre Anfrage liegt uns trotzdem vor.",
+    successNoMail: "Der E-Mail-Versand ist noch nicht aktiv. Ihre Anfrage ist gespeichert.",
+    successMailFailed: "Die E-Mail konnte nicht gesendet werden. Ihre Anfrage ist gespeichert. Sie können auch an info@fatlum.diamonds schreiben.",
+    successWrite: "Der E-Mail-Versand ist noch nicht aktiv. Bitte schreiben Sie an info@fatlum.diamonds.",
     error: "Die Anfrage konnte nicht gespeichert werden. Bitte versuchen Sie es erneut oder schreiben Sie an info@fatlum.diamonds.",
     ref: "Referenz",
     errors: {
@@ -416,7 +418,9 @@ const en: Dict = {
     successTitle: "Your request has arrived.",
     success: "We will reply in person.",
     successMail: "A confirmation is on its way to your email.",
-    successNoMail: "An automatic email is not set up yet. Your request is with us anyway.",
+    successNoMail: "Email is not switched on yet. Your enquiry is stored.",
+    successMailFailed: "The email could not be sent. Your enquiry is stored. You can also write to info@fatlum.diamonds.",
+    successWrite: "Email is not switched on yet. Please write to info@fatlum.diamonds.",
     error: "The request could not be stored. Please try again or write to info@fatlum.diamonds.",
     ref: "Reference",
     errors: {

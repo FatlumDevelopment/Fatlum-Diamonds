@@ -30,7 +30,7 @@ RLS: anonymous and authenticated users may select active stones and insert inqui
 
 ## Email
 
-`POST /api/request` stores the inquiry. A reservation is the same list, stored with a reservation note in the message. Resend runs only when `RESEND_API_KEY` is set. Otherwise the request is stored and the response says email was skipped.
+`POST /api/request` stores the inquiry and sends it with the Resend SDK when `RESEND_API_KEY` is set. `MAIL_FROM` defaults to `Fatlum Diamonds <info@fatlum.diamonds>` and `MAIL_TO` to `info@fatlum.diamonds`. The shop message uses the customer as reply-to. A short confirmation goes to the customer in their language. If the key is missing, nothing is thrown and the form says the enquiry is stored. A reservation is the same list, with a reservation note in the message.
 
 ## Photographs
 

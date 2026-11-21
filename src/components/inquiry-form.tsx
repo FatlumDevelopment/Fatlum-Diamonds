@@ -24,6 +24,7 @@ export function InquiryForm({
   const [errors, setErrors] = useState<Errors>({});
   const [ref, setRef] = useState("");
   const [mail, setMail] = useState<"sent" | "skipped" | "failed" | "">("");
+  const [stored, setStored] = useState(true);
   const reserve = intent === "reserve" && kind === "list";
 
   function validate(form: HTMLFormElement): Errors {
@@ -66,12 +67,14 @@ export function InquiryForm({
         items: items.map((item) => item.slug),
       }),
     }).catch(() => null);
-    if (!r || !r.ok) { setState("err"); return; }
-    const body = await r.json().catch(() => ({}));
+    const body = r ? await r.json().catch(() => ({})) : {};
+    if (!r || !r.ok || !body.ok) { setState("err"); return; }
+    const nextMail = body.email === "sent" || body.email === "failed" || body.email === "skipped" ? body.email : "skipped";
     setRef(String(body.ref || ""));
-    setMail(body.email === "sent" || body.email === "failed" ? body.email : "skipped");
+    setMail(nextMail);
+    setStored(body.stored !== false);
     setState("ok");
-    onDone?.();
+    if (body.stored !== false || nextMail === "sent") onDone?.();
   }
 
   if (state === "ok") {
@@ -80,7 +83,9 @@ export function InquiryForm({
         <p className="font-serif text-4xl font-normal leading-tight">{t.request.successTitle}</p>
         <p className="mt-4 text-muted">{t.request.success}</p>
         {ref ? <p className="mt-4 text-sm">{t.request.ref} {ref}</p> : null}
-        <p className="mt-3 text-sm leading-relaxed text-muted">{mail === "sent" ? t.request.successMail : t.request.successNoMail}</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted">
+          {mail === "sent" ? t.request.successMail : mail === "failed" ? t.request.successMailFailed : stored ? t.request.successNoMail : t.request.successWrite}
+        </p>
       </div>
     );
   }
